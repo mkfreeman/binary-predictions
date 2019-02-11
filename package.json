@@ -1,0 +1,35 @@
+{
+    "name": "binary-predictions",
+    "version": "0.1.0",
+    "private": true,
+    "devDependencies": {
+        "react-scripts": "2.1.5"
+    },
+    "homepage": "http://mfviz.com/binary-predictions",
+    "dependencies": {
+        "d3": "^4.13.0",
+        "d3-tip": "^0.7.1",
+        "gh-pages": "^1.0.0",
+        "react": "^16.8.1",
+        "react-dom": "^16.8.1",
+        "react-fontawesome": "^1.6.1",
+        "react-ga": "^2.3.5",
+        "react-scroll": "^1.6.1",
+        "react-tex": "^1.4.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
+}

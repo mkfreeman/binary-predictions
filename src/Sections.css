@@ -1,0 +1,35 @@
+/* Sections css */
+
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+.Sections {
+}
+
+.no-bullets {
+    list-style-type: none;
+    margin-left: 5px;
+}
+
+.conclusion {
+    margin-bottom: 400px;
+}
+
+.inline p {
+    margin-top:0px;
+    margin-bottom:0px;
+    display:inline-block;
+    line-height:initial;
+}
+
+.katex {
+    white-space: inherit;
+}
+
+.span-wrapper > span {
+    display:inline-block;
+    margin: 0px;    
+}
+
+.span-wrapper {
+    font-size: 1.1em;
+    margin-top: 10px;
+}

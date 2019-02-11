@@ -1,0 +1,11 @@
+@import url('//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css');
+.title {
+    text-anchor:middle;
+}
+
+.chart {
+    position:fixed;
+    top:100px;
+    /* right:0px; */
+
+}
