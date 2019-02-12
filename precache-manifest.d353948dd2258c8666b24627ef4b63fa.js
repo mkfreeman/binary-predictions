@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/binary-predictions/static/css/main.6d1ccdb5.chunk.css"
   },
   {
-    "revision": "f94c26ba9420c61188a0d0f249cc1168",
+    "revision": "5a481422a0710e6ecb8741bbf6513037",
     "url": "/binary-predictions/index.html"
   }
 ];
