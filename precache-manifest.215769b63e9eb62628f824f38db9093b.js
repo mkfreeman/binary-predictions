@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/binary-predictions/static/js/runtime~main.ba501510.js"
   },
   {
-    "revision": "47ae5697e81369cfafd3",
-    "url": "/binary-predictions/static/js/main.47ae5697.chunk.js"
+    "revision": "ebbdc39f2c5a9eb8407b",
+    "url": "/binary-predictions/static/js/main.ebbdc39f.chunk.js"
   },
   {
     "revision": "6b87f01175b84921efad",
     "url": "/binary-predictions/static/js/2.6b87f011.chunk.js"
   },
   {
-    "revision": "47ae5697e81369cfafd3",
+    "revision": "ebbdc39f2c5a9eb8407b",
     "url": "/binary-predictions/static/css/main.f080c59e.chunk.css"
   },
   {
-    "revision": "de077fbecdd2f2967d44a9e07e8f6a85",
+    "revision": "74c378feaac14909879c147c4976461b",
     "url": "/binary-predictions/index.html"
   }
 ];
