@@ -32,7 +32,7 @@ class ScatterPlotComponent extends Component {
                 top: 0,
                 right: 0
             };
-        } else if (this.props.hideAxes == true) {
+        } else if (this.props.hideXAxix == true) {
             margin = {
                 left: 0,
                 bottom: 0,
@@ -48,6 +48,7 @@ class ScatterPlotComponent extends Component {
             }
         }
         // Update parameters
+        console.log(this.props.showCircles)
         this
             .scatter
             .width(this.props.width)
@@ -57,15 +58,25 @@ class ScatterPlotComponent extends Component {
             .xTitle(this.props.xTitle)
             .yTitle(this.props.yTitle)
             .radius(this.props.radius)
+            .showThreshold(this.props.settings.showThreshold)
             .pack(this.props.settings.pack)
             .packValue('y')
             .xSwarm(this.props.settings.xSwarm)
-            .hideAxes(this.props.settings.hideAxes)
+            .hideXAxis(this.props.settings.hideXAxis)
+            .hideYAxis(this.props.settings.hideYAxis)
             .packGroup('color')
+            .onDrag(this.props.update)
+            .fixedXMin(this.props.axisLimits.xMin)
+            .fixedYMin(this.props.axisLimits.yMin)
+            .fixedXMax(this.props.axisLimits.xMax)
+            .showCircles(this.props.showCircles)
+            .showPath(this.props.showPath)
+            .fixedYMax(this.props.axisLimits.yMax);
+
         // .margin(margin) Call d3 update
         d3
             .select(this.root)
-            .datum({ scatter: scatterData, pack: this.props.data.slice(0), swarm: swarmData })
+            .datum({ scatter: scatterData, pack: this.props.data.slice(0), swarm: swarmData, horizontalLine: this.props.threshold })
             .call(this.scatter);
     }
     // Update on new props
@@ -97,7 +108,8 @@ ScatterPlotComponent.defaultProps = {
     yTitle: 'Y Title',
     title: 'Title',
     delay: (d) => 0,
-    hideAxes: false,
+    hideXAxis: false,
+    hideYAxis: false,
     radius: (d) => d.selected == true
         ? 6
         : 10,

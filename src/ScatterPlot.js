@@ -12,7 +12,12 @@ let ScatterPlot = function () {
         yTitle = 'Y Axis Title',
         xSwarm = false,
         duration = 1000,
-        hideAxes = false,
+        onDrag = () => false,
+        hideXAxis = false,
+        hideYAxis = false,
+        showThreshold = false,
+        showCircles = true,
+        showPath = false,
         colorScale = (d) => d.color || 'green',
         radius = (d) => 6,
         margin = {
@@ -25,9 +30,27 @@ let ScatterPlot = function () {
         pack = false,
         packGroup = 'group',
         packValue = 'y',
-        yFormat = (d) => "$" + d3.format(".2s")(d),
-        chartData = []
+        yFormat = (d) => d3.format(".1")(+d),
+        chartData = [],
+        fixedXMax,
+        fixedXMin,
+        fixedYMax,
+        fixedYMin;
 
+    // Dragging function
+    function dragstarted(d) {
+        // d3.select(this).raise().classed("active", true);
+    }
+
+    function dragged(d) {
+        // d3.select(this).attr("y1", d3.event.y).attr("y2", d3.event.y);
+        if (yScale.invert(d3.event.y) < yScale.domain()[0] | yScale.invert(d3.event.y) > yScale.domain()[1]) return;
+        onDrag(yScale.invert(d3.event.y))
+    }
+
+    function dragended(d) {
+        d3.select(this).classed("active", false);
+    }
     // Function returned by ScatterPlot
     let chart = function (selection) {
         // Height/width of the drawing area itself
@@ -63,7 +86,7 @@ let ScatterPlot = function () {
                 .append('g')
                 .attr('transform', 'translate(' + margin.left + ',' + (chartHeight + margin.top) + ')')
                 .attr('class', 'axis x')
-                .style('opacity', hideAxes == true
+                .style('opacity', hideXAxis == true
                     ? 0
                     : 1);
 
@@ -71,7 +94,7 @@ let ScatterPlot = function () {
                 .append('g')
                 .attr('class', 'axis y')
                 .attr('transform', 'translate(' + margin.left + ',' + (margin.top) + ')')
-                .style('opacity', hideAxes == true
+                .style('opacity', hideYAxis == true
                     ? 0
                     : 1);
 
@@ -80,7 +103,7 @@ let ScatterPlot = function () {
                 .append('text')
                 .attr('transform', 'translate(' + (margin.left + chartWidth / 2) + ',' + (chartHeight + margin.top + 40) + ')')
                 .attr('class', 'title x')
-                .style('opacity', hideAxes == true
+                .style('opacity', hideXAxis == true
                     ? 0
                     : 1);
 
@@ -89,7 +112,7 @@ let ScatterPlot = function () {
                 .append('text')
                 .attr('transform', 'translate(' + (margin.left - 50) + ',' + (margin.top + chartHeight / 2) + ') rotate(-90)')
                 .attr('class', 'title y')
-                .style('opacity', hideAxes == true
+                .style('opacity', hideYAxis == true
                     ? 0
                     : 1);
 
@@ -108,15 +131,16 @@ let ScatterPlot = function () {
             ele
                 .select('svg')
                 .call(tip);
+
             // Calculate x and y scales
-            let xMax = d3.max(data.scatter, (d) => + d.x) * 1.05;
-            let xMin = d3.min(data.scatter, (d) => + d.x) - xMax / 15;
+            let xMax = fixedXMax || d3.max(data.scatter, (d) => + d.x) * 1.05;
+            let xMin = fixedXMin || d3.min(data.scatter, (d) => + d.x) - xMax / 15;
             xScale
                 .range([0, chartWidth])
                 .domain([xMin, xMax]);
 
-            let yMin = d3.min(data.scatter, (d) => + d.y) * .95;
-            let yMax = d3.max(data.scatter, (d) => + d.y) * 1.05;
+            let yMin = fixedYMin || d3.min(data.scatter, (d) => + d.y) * .95;
+            let yMax = fixedYMax || d3.max(data.scatter, (d) => + d.y) * 1.05;
             yScale
                 .range([chartHeight, 0])
                 .domain([yMin, yMax]);
@@ -130,11 +154,11 @@ let ScatterPlot = function () {
                 .select('.axis.x')
                 .attr('transform', 'translate(' + margin.left + ',' + (chartHeight + margin.top) + ')')
                 .transition()
-                .delay(hideAxes != true
+                .delay(hideXAxis != true
                     ? duration
                     : 0)
                 .duration(1000)
-                .style('opacity', hideAxes == true
+                .style('opacity', hideXAxis == true
                     ? 0
                     : 1)
                 .call(xAxis);
@@ -142,10 +166,10 @@ let ScatterPlot = function () {
                 .select('.axis.y')
                 .transition()
                 .duration(1000)
-                .delay(hideAxes != true
+                .delay(hideYAxis != true
                     ? duration
                     : 0)
-                .style('opacity', hideAxes == true
+                .style('opacity', hideYAxis == true
                     ? 0
                     : 1)
                 .call(yAxis);
@@ -156,11 +180,11 @@ let ScatterPlot = function () {
                 .text(xTitle)
                 .attr('transform', 'translate(' + (margin.left + chartWidth / 2) + ',' + (chartHeight + margin.top + 40) + ')')
                 .transition()
-                .delay(hideAxes != true
+                .delay(hideXAxis != true
                     ? duration
                     : 0)
                 .duration(duration)
-                .style('opacity', hideAxes == true
+                .style('opacity', hideXAxis == true
                     ? 0
                     : 1)
             ele
@@ -168,11 +192,11 @@ let ScatterPlot = function () {
                 .attr('transform', 'translate(' + (margin.left - 50) + ',' + (margin.top + chartHeight / 2) + ') rotate(-90)')
                 .text(yTitle)
                 .transition()
-                .delay(hideAxes != true
+                .delay(hideYAxis != true
                     ? duration
                     : 0)
                 .duration(duration)
-                .style('opacity', hideAxes == true
+                .style('opacity', hideYAxis == true
                     ? 0
                     : 1);
 
@@ -198,7 +222,7 @@ let ScatterPlot = function () {
                     return d.values;
                 })
                     .sum(function (d) {
-                        return + d[packValue];
+                        return 1;
                     });
                 // (Re)build your pack hierarchy data structure by passing your `root` to your
                 // `pack` function
@@ -234,7 +258,6 @@ let ScatterPlot = function () {
                     .range([yMin, yMax])
                 radius = (d) => d.r
             } else if (xSwarm === true) {
-                console.log("swarmmmmm")
                 let tmp = data.swarm.map((d) => d);
                 let simulation = d3.forceSimulation(tmp)
                     .force("x", d3.forceX(function (d) { return xScale(d.x); }).strength(1))
@@ -251,10 +274,8 @@ let ScatterPlot = function () {
                         color: d.color
                     }
                 });
-                console.log("swarm data", chartData)
             }
             else {
-                console.log("scatter data!!", data.scatter)
                 chartData = data.scatter.map((d) => {
                     return {
                         x: d.x,
@@ -276,25 +297,27 @@ let ScatterPlot = function () {
             circles
                 .enter()
                 .append('circle')
-                .style('opacity', .3)
                 .attr('cx', (d) => xScale(d.x))
                 .attr('cy', (d) => yScale(d.y))
-                .attr('r', 0)
-                // .on('mouseover', tip.show) .on('mouseout', tip.hide) Transition properties of
-                // the + update selections
-                .merge(circles)
-                .transition()
-                .duration(1500)
-                .delay(delay)
-                // .style('fill', (d) => colorScale(d.color))
+                .attr('r', (d) => radius(d))
                 .style('fill', function (d) {
                     return d.container == true
                         ? 'none'
                         : colorScale(d.color)
                 })
+                .merge(circles)
+                .style('opacity', (d) => showCircles === true ? .4 : 0)
+                .transition()
+                .duration(1500)
+                .delay(delay)
                 .style('stroke', (d) => d.container == true
                     ? 'black'
                     : 'none')
+                .style('fill', function (d) {
+                    return d.container == true
+                        ? 'none'
+                        : colorScale(d.color)
+                })
                 .attr('cx', (d) => xScale(d.x))
                 .attr('cy', (d) => yScale(d.y))
                 .attr('r', (d) => radius(d));
@@ -305,7 +328,93 @@ let ScatterPlot = function () {
             // in the data
             circles
                 .exit()
+                .transition()
+                .duration(500)
+                .style("opacity", 0)
                 .remove();
+
+
+            // Add rectangle background shading
+            let rectData = showThreshold == false ? [] : [
+                { "x": 0, "y": yScale(data.horizontalLine), "width": xScale.range()[1], "height": yScale.range()[0] - yScale(data.horizontalLine) },
+                { "x": 0, "y": 0, "width": xScale.range()[1], "height": yScale(data.horizontalLine) }
+            ]
+            let rects = ele
+                .select('.chartG')
+                .selectAll('rect')
+                .data(rectData)
+
+            rects.enter().append("rect")
+                .style("opacity", 0)// attach a line
+                .merge(rects)
+                .style("stroke", "black")  // colour the line
+                .attr("x", (d) => d.x)     // x position of the first end of the line
+                .attr("y", (d) => d.y)      // y position of the first end of the line
+                .attr("width", (d) => d.width)
+                .attr("height", (d) => d.height)
+                .style("fill", (d, i) => i === 0 ? "blue" : "red")
+                .transition().duration(1000)
+                .style("opacity", .2)
+
+            rects.exit().transition().duration(1000)
+                .style("opacity", 0).remove().remove()
+
+            // Adding a vertical line
+            let lineData = showThreshold == false ? [] : ["line"];
+            let line = ele
+                .select('.chartG')
+                .selectAll('line')
+                .data(lineData)
+
+            line.enter().append("line")
+                .style("opacity", 0) // attach a line
+                .merge(line)
+
+                .style("cursor", "pointer")
+                .style("stroke", "black")  // colour the line
+                .attr("x1", 0)     // x position of the first end of the line
+                .attr("y1", yScale(data.horizontalLine))      // y position of the first end of the line
+                .attr("x2", xScale.range()[1])     // x position of the second end of the line
+                .attr("y2", yScale(data.horizontalLine))
+                .style("stroke-width", "5")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended))
+                .transition().duration(1000)
+                .style("opacity", 1)
+
+            line.exit().transition().duration(1000)
+                .style("opacity", 0).remove()
+
+
+
+            // Path drawing function
+            let path = d3.line()
+                .x(d => xScale(d.x))
+                .y(d => yScale(d.y))
+
+            // Add paths
+            let pathData = showPath === true ? chartData.sort((a, b) => a.x - b.x) : ''
+            let paths = ele
+                .select('.chartG')
+                .selectAll('path.custom')
+                .data([pathData])
+
+            paths.enter().append("path")
+                .attr("class", "custom")
+                .style("opacity", 0) // attach a line
+                .merge(paths)
+                .style("cursor", "pointer")
+                .style("stroke", "black")  // colour the line
+                .attr("d", path)
+                .style("fill", "none")
+                .style("stroke-width", "2")
+                .transition().duration(1000)
+                .style("opacity", showPath === true ? 1 : 0);
+
+            paths.exit().remove()
+
 
         });
     };
@@ -389,10 +498,65 @@ let ScatterPlot = function () {
         return chart;
     };
 
-    chart.hideAxes = function (value) {
+    chart.hideYAxis = function (value) {
         if (!arguments.length)
-            return hideAxes;
-        hideAxes = value;
+            return hideYAxis;
+        hideYAxis = value;
+        return chart;
+    };
+
+    chart.hideXAxis = function (value) {
+        if (!arguments.length)
+            return hideXAxis;
+        hideXAxis = value;
+        return chart;
+    };
+    chart.onDrag = function (value) {
+        if (!arguments.length)
+            return onDrag;
+        onDrag = value;
+        return chart;
+    };
+    chart.fixedXMin = function (value) {
+        if (!arguments.length)
+            return fixedXMin;
+        fixedXMin = value;
+        return chart;
+    };
+    chart.fixedXMax = function (value) {
+        if (!arguments.length)
+            return fixedXMax;
+        fixedXMax = value;
+        return chart;
+    };
+    chart.fixedYMin = function (value) {
+        if (!arguments.length)
+            return fixedYMin;
+        fixedYMin = value;
+        return chart;
+    };
+    chart.fixedYMax = function (value) {
+        if (!arguments.length)
+            return fixedYMax;
+        fixedYMax = value;
+        return chart;
+    };
+    chart.showThreshold = function (value) {
+        if (!arguments.length)
+            return showThreshold;
+        showThreshold = value;
+        return chart;
+    };
+    chart.showCircles = function (value) {
+        if (!arguments.length)
+            return showCircles;
+        showCircles = value;
+        return chart;
+    };
+    chart.showPath = function (value) {
+        if (!arguments.length)
+            return showPath;
+        showPath = value;
         return chart;
     };
     return chart;
