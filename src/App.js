@@ -170,7 +170,7 @@ class App extends React.Component {
 
     componentDidMount() {
         // Google analytics
-        ReactGA.initialize('UA-49431863-5');
+        ReactGA.initialize('UA-49431863-8');
         logPageView();
 
         // Page title
