@@ -7,5 +7,18 @@
     position:fixed;
     top:100px;
     /* right:0px; */
+}
 
+#threshold { 
+-webkit-animation: mymove .5s infinite; /* Safari 4.0 - 8.0 */
+  animation: mymove .5s linear infinite;
+  animation-direction: alternate;
+}
+
+@keyframes mymove {
+    0%{opacity:.2;}
+    25%{opacity:..3;}
+    50%{opacity:..5;}
+    75%{opacity:..7;}
+    100%{opacity:.9;}
 }

@@ -39,7 +39,7 @@ let ScatterPlot = function () {
 
     // Dragging function
     function dragstarted(d) {
-        // d3.select(this).raise().classed("active", true);
+        d3.select(this).attr("id", "inactive_threshold")
     }
 
     function dragged(d) {
@@ -49,7 +49,7 @@ let ScatterPlot = function () {
     }
 
     function dragended(d) {
-        d3.select(this).classed("active", false);
+        d3.select(this).attr("id", "threshold")
     }
     // Function returned by ScatterPlot
     let chart = function (selection) {
@@ -368,8 +368,8 @@ let ScatterPlot = function () {
 
             line.enter().append("line")
                 .style("opacity", 0) // attach a line
+                .attr("id", "threshold")
                 .merge(line)
-
                 .style("cursor", "pointer")
                 .style("stroke", "black")  // colour the line
                 .attr("x1", 0)     // x position of the first end of the line
