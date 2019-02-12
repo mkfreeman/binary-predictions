@@ -1,13 +1,13 @@
 {
-  "main.css": "/binary-predictions/static/css/main.6d1ccdb5.chunk.css",
-  "main.js": "/binary-predictions/static/js/main.75891f3b.chunk.js",
-  "main.js.map": "/binary-predictions/static/js/main.75891f3b.chunk.js.map",
+  "main.css": "/binary-predictions/static/css/main.f080c59e.chunk.css",
+  "main.js": "/binary-predictions/static/js/main.47ae5697.chunk.js",
+  "main.js.map": "/binary-predictions/static/js/main.47ae5697.chunk.js.map",
   "runtime~main.js": "/binary-predictions/static/js/runtime~main.ba501510.js",
   "runtime~main.js.map": "/binary-predictions/static/js/runtime~main.ba501510.js.map",
   "static/js/2.6b87f011.chunk.js": "/binary-predictions/static/js/2.6b87f011.chunk.js",
   "static/js/2.6b87f011.chunk.js.map": "/binary-predictions/static/js/2.6b87f011.chunk.js.map",
   "index.html": "/binary-predictions/index.html",
-  "precache-manifest.d353948dd2258c8666b24627ef4b63fa.js": "/binary-predictions/precache-manifest.d353948dd2258c8666b24627ef4b63fa.js",
+  "precache-manifest.a74a84cc750a5108d3b88c6fe17ebc8f.js": "/binary-predictions/precache-manifest.a74a84cc750a5108d3b88c6fe17ebc8f.js",
   "service-worker.js": "/binary-predictions/service-worker.js",
-  "static/css/main.6d1ccdb5.chunk.css.map": "/binary-predictions/static/css/main.6d1ccdb5.chunk.css.map"
+  "static/css/main.f080c59e.chunk.css.map": "/binary-predictions/static/css/main.f080c59e.chunk.css.map"
 }
