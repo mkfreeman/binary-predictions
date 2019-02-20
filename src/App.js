@@ -378,10 +378,10 @@ class App extends React.Component {
         this.setState({ typeFilter: filter });
     }
     getXTitle() {
-        return this.state.dataStep === 9 ? "Sensitivity" : "Maximum Tumor Concavity"
+        return this.state.dataStep === 9 ? "False Positive Rate (1 - Specificity)" : "Maximum Tumor Concavity"
     }
     getYTitle() {
-        return this.state.dataStep === 9 ? "Specificity" : "Probability of Malignancy"
+        return this.state.dataStep === 9 ? "True Positive Rate (Sensitivity)" : "Probability of Malignancy"
     }
     getAxisLimits() {
         let limits = {

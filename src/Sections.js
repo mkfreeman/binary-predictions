@@ -128,8 +128,8 @@ class Sections extends Component {
                 ele = <div>
                     <h1>ROC Curve</h1>
                     <p>This trade off between specificity and sensitivity is often displayed using a Receiver Operator Characteristic (ROC) Curve, which displays the following:</p>
-                    <p><strong>Sensitivity:</strong> Along the x-axis, the sensitivity (also called the <em>true positive rate</em>.</p>
-                    <p><strong>Specificity:</strong> Along the y-axis, the specificity (also called the <em>true negative rate</em></p>
+                    <p><strong>False Positive Rate:</strong> Along the x-axis, the <em>false positive rate</em>, which is <code>1 - specificity</code>.</p>
+                    <p><strong>True Positive Rate:</strong> Along the y-axis, the <em>true positive rate</em> which is the <code>sensitivity</code>.</p>
                 </div>
                 break;
 
