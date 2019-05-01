@@ -54,7 +54,7 @@ class ScatterPlotComponent extends Component {
             .width(this.props.width)
             .height(this.props.height)
             .colorScale(this.props.colorScale)
-            .delay(this.props.delay)
+            // .delay(this.props.delay)
             .xTitle(this.props.xTitle)
             .yTitle(this.props.yTitle)
             .radius(this.props.radius)

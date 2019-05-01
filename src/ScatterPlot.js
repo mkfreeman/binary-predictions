@@ -26,7 +26,7 @@ let ScatterPlot = function () {
             top: 0,
             right: 50
         },
-        delay = (d) => xScale(d.x) * 5,
+        delay = (d) => xScale(d.x) / xScale.range()[1] * 500,
         pack = false,
         packGroup = 'group',
         packValue = 'y',
